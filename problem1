@@ -1,0 +1,47 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+#given
+x=[2,5,3,10]
+y=[8,25,9,40]
+
+#taking mean of x and y
+mean_x=mean_y=0
+for i in x:
+    mean_x+=i
+for j in y:
+    mean_y+=j
+    
+mean_x=mean_x/4
+mean_y=mean_y/4
+
+x1=[]
+y1=[]
+for i in x:
+    x1.append(i-mean_x)
+for j in y:
+    y1.append(j-mean_y)
+    
+sq_x1=np.multiply(x1,x1)
+x1_y1=np.multiply(x1,y1)
+
+d={'x':x,'y':y,'x-mean_x':x1,'y-mean_y':y1,'(x-mean_x)^2':sq_x1,'(x-mean_x)*(y-mean_y)':x1_y1}
+df=pd.DataFrame(data=d)
+print(df)
+
+#finding slope
+m=sum(x1_y1)/sum(sq_x1)
+
+#finding intersecting point
+c=mean_y-mean_x*m
+
+x_new=np.linspace(0,12,50)
+y_new=m*x_new+c
+plt.plot(x_new,y_new,color='green',label='linear regression')
+plt.scatter(x,y,color='red',label='actual values')
+
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.legend()
+plt.show()
